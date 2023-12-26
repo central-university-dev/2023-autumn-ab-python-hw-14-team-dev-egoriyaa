@@ -1,22 +1,25 @@
-[build-system]
-requires = ["setuptools>=68.1"]
-build-backend = "setuptools.build_meta"
-
-[project]
-name = "homework_10"
-version = "0.0.1"
+[tool.poetry]
+name = "ABC"
+version = "0.1.0"
+description = "Application for bird classification"
 authors = [
-  { name="Dmitry Kosarevsky", email="if@kosarevsky.ru" },
+    "Егор Батурин",
+    "Камиль Аглиуллин",
+    "Владимир Дьяков"
 ]
-description = "A Tinkoff Python AB hw-10 package"
 readme = "README.md"
-requires-python = ">=3.12"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-]
 
-[project.urls]
-"Homepage" = "https://github.com/central-university-dev/python-hw-10-template"
-"Bug Tracker" = "https://github.com/central-university-dev/python-hw-10-template/issues"
+[tool.poetry.dependencies]
+python = ">=3.10.0, <3.11.0"
+
+psycopg2-binary = "*"
+
+pytest = "^7.3"
+pytest-cov = "^4.0"
+
+ruff = "*"
+black = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
