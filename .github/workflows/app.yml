@@ -3,7 +3,7 @@ name: Test
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     types: [opened, synchronize]
 
@@ -81,7 +81,4 @@ jobs:
 
       - name: PyTest
         run: |
-          poetry run pytest tests --cov=abc --cov-report=xml
-
-      - name: Upload coverage
-        uses: codecov/codecov-action@v2
+          poetry run pytest tests --cov=abc
