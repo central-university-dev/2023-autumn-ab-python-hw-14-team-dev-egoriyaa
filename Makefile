@@ -1,11 +1,11 @@
 format:
-	black src/
+	black abc/
 	black tests/
-	ruff format src/
+	ruff format abc/
 	ruff format tests/
 
 lint:
-	black --check src/
+	black --check abc/
 	black --check tests/
-	ruff check src/
+	ruff check abc/
 	ruff check tests/
