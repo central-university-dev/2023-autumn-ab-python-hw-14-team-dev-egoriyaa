@@ -10,8 +10,13 @@ services:
       - "5432:5432"
     networks:
       - ournetwork
-    env_file:
-      - .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_TABLE=${POSTGRES_TABLE}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
     healthcheck:
           test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'"]
           interval: 1s
@@ -28,8 +33,13 @@ services:
         condition: service_healthy
     networks:
       - ournetwork
-    env_file:
-      - .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_TABLE=${POSTGRES_TABLE}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
 
   api:
     build:
@@ -41,8 +51,13 @@ services:
         condition: service_started
     networks:
       - ournetwork
-    env_file:
-      - .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_TABLE=${POSTGRES_TABLE}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
     ports:
       - "8000:8000"
     command: python3 -m uvicorn main:app --host 0.0.0.0 --port 8000
