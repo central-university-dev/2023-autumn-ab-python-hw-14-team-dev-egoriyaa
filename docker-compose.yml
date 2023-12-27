@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: db
+    volumes:
+      - ./pgdata/:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - ournetwork
+    env_file:
+      - .env
+    healthcheck:
+          test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'"]
+          interval: 1s
+          timeout: 5s
+          retries: 10
+
+  model:
+    build:
+        context: .
+        dockerfile: docker/model/Dockerfile
+    container_name: model
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - ournetwork
+    env_file:
+      - .env
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/api/Dockerfile
+    container_name: api
+    depends_on:
+      model:
+        condition: service_started
+    networks:
+      - ournetwork
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    command: python3 -m uvicorn main:app --host 0.0.0.0 --port 8000
+
+
+networks:
+  ournetwork:
+    driver: bridge
+
+volumes:
+  pgdata:
