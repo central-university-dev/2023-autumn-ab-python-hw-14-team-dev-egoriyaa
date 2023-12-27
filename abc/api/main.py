@@ -8,17 +8,23 @@ from psycopg2 import OperationalError, ProgrammingError, connect
 
 random.seed(42)
 
-db_user = os.getenv('POSTGRES_USER')
-db_password = os.getenv('POSTGRES_PASSWORD')
-db_name = os.getenv('POSTGRES_DB')
-table_name = os.getenv('POSTGRES_TABLE')
-db_host = os.getenv('DB_HOST')
-db_port = int(os.getenv('DB_PORT'))
+db_user = os.getenv("POSTGRES_USER")
+db_password = os.getenv("POSTGRES_PASSWORD")
+db_name = os.getenv("POSTGRES_DB")
+table_name = os.getenv("POSTGRES_TABLE")
+db_host = os.getenv("DB_HOST")
+db_port = int(os.getenv("DB_PORT"))
 
 app = FastAPI()
 
 
-def create_connection(db_name: str, db_user: str, db_password: str, db_host: str = '127.0.0.1', db_port: int = 5432):
+def create_connection(
+    db_name: str,
+    db_user: str,
+    db_password: str,
+    db_host: str = "127.0.0.1",
+    db_port: int = 5432,
+):
     """Create connection to a Postgres database.
 
     Args:
@@ -38,7 +44,7 @@ def create_connection(db_name: str, db_user: str, db_password: str, db_host: str
         host=db_host,
         port=db_port,
     )
-    print('Connection to PostgreSQL DB successful')
+    print("Connection to PostgreSQL DB successful")
     return connection
 
 
@@ -54,11 +60,13 @@ def check_connection_to_db():
     """
     connection = create_connection(db_name, db_user, db_password, db_host, db_port)
     try:
-        with connection.cursor() as cursor:
-            return PlainTextResponse(content='Successfully connected to db', status_code=200)
+        with connection.cursor():
+            return PlainTextResponse(
+                content="Successfully connected to db", status_code=200
+            )
 
     except (OperationalError, ProgrammingError) as e:
-        logging.warning(f'''The error '{e}' occurred''')
+        logging.warning(f"""The error '{e}' occurred""")
         raise HTTPException(status_code=400) from e
 
     finally:
