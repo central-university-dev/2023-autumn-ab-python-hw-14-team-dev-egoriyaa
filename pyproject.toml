@@ -22,6 +22,10 @@ black = "*"
 fastapi = "^0.108.0"
 uvicorn = "^0.25.0"
 
+[tool.ruff]
+ignore-init-module-imports = true # TODO doesn't work without exclude section
+exclude = ["__init__.py"]
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
