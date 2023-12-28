@@ -35,19 +35,12 @@ class DataBase:
             db_name, db_user, db_password, db_host, db_port
         )
 
-    def create_db(self):
-        """Create database for bird classification application."""
-        self.connection.autocommit = True
-        cursor = self.connection.cursor()
-        cursor.execute(f"CREATE DATABASE {self.db_name}")
-        print("Query executed successfully")
-
     def create_table(self):
         """Create table to store information about pictures."""
-        create_table_query = f"""
-            CREATE TABLE IF NOT EXISTS {self.} (
+        create_table_query = """
+            CREATE TABLE IF NOT EXISTS bird_table (
                 image_hash TEXT PRIMARY KEY,
-                label TEXT NOT NULL,
+                label TEXT NOT NULL
             )
         """
         self.execute_query(create_table_query)
@@ -85,7 +78,7 @@ class DataBase:
         Returns:
             : bird class for picture with image_hash if image_hash in table else False
         """
-        query = f"SELECT label FROM abc WHERE image_hash = {image_hash}"
+        query = f"SELECT label FROM bird_table WHERE image_hash = '{image_hash}'"
         result = self.execute_read_query(query)
         return result[0][0] if result else False
 
@@ -95,8 +88,8 @@ class DataBase:
             image_hash (str): image_hash
             label (str): bird class
         """
-        data = (image_hash, label)
-        insert_query = "INSERT INTO abc (image_hash, label) VALUES %s"
+        data = [(image_hash, label)]
+        insert_query = "INSERT INTO bird_table (image_hash, label) VALUES %s"
         self.connection.autocommit = True
         cursor = self.connection.cursor()
         cursor.execute(insert_query, data)
