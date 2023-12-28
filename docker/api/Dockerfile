@@ -9,6 +9,6 @@ WORKDIR /app
 RUN pip install poetry
 
 COPY pyproject.toml .
-COPY abc/api/main.py .
+COPY aic/api/main.py .
 
 RUN poetry install
