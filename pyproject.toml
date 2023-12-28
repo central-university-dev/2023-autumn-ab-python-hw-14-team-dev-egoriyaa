@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "ABC"
+name = "AIC"
 version = "0.1.0"
-description = "Application for bird classification"
+description = "Application for image classification"
 authors = [
     "Егор Батурин",
     "Камиль Аглиуллин",
@@ -21,6 +21,13 @@ ruff = "*"
 black = "*"
 fastapi = "^0.108.0"
 uvicorn = "^0.25.0"
+
+[tool.poetry.group.dl-dev.dependencies]
+python = ">=3.10.0, <3.11.0"
+opencv-python = "*"
+numpy = "*"
+torch = "*"
+torchvision = "*"
 
 [build-system]
 requires = ["poetry-core"]
