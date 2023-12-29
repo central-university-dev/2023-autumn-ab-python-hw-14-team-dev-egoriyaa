@@ -3,9 +3,11 @@ from fastapi import UploadFile
 from aic.api.utilities import is_valid_image
 from pathlib import Path
 
+IMAGE_PATH = "tests/test_local/test_api/assets/psi.png"
+
 
 def test_is_valid_image_valid_image():
-    image_path = Path("tests/assets/psi.png")
+    image_path = Path(IMAGE_PATH)
     assert is_valid_image(image_path) is True
 
 
