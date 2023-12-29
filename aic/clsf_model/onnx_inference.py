@@ -15,7 +15,9 @@ class Inference:
         image_data = np.asarray(image).astype(np.float32)
         image_data = image_data.transpose([2, 0, 1])  # transpose to CHW
         for channel in range(image_data.shape[0]):
-            image_data[channel, :, :] = (image_data[channel, :, :] / 255 - self.MEAN[channel]) / self.STD[channel]
+            image_data[channel, :, :] = (
+                image_data[channel, :, :] / 255 - self.MEAN[channel]
+            ) / self.STD[channel]
         image_data = np.expand_dims(image_data, 0)
         return image_data
 
@@ -25,7 +27,7 @@ class Inference:
         return categories[ind]
 
     def _predict(self, image):
-        output = self.sess.run([], {'input': image})[0]
+        output = self.sess.run([], {"input": image})[0]
         output = output.flatten()
         return np.argmax(output)
 
