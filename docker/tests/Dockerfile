@@ -10,5 +10,6 @@ RUN pip install poetry
 
 COPY . .
 
+RUN printenv
 RUN poetry install
 RUN poetry run pytest tests --cov=aic
