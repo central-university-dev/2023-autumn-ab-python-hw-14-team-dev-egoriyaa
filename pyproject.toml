@@ -27,6 +27,10 @@ httpx = "^0.26.0"
 opencv-python = "^4.8.1.78"
 pdoc3 = "^0.10.0"
 
+numpy = "*"
+onnx = "*"
+onnxruntime = "*"
+
 [tool.ruff]
 ignore-init-module-imports = true # TODO doesn't work without exclude section
 exclude = ["__init__.py"]

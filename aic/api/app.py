@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse, PlainTextResponse
 from psycopg2 import OperationalError, ProgrammingError
 
 from aic.db.main import DataBase
+from aic.clsf_model.onnx_inference import Inference
 
 random.seed(42)
 
@@ -76,6 +77,7 @@ async def upload_image_and_classify(file: UploadFile | None = None):
         image = cv2.imdecode(arr, cv2.IMREAD_COLOR)
         if image is None:
             return PlainTextResponse(content="Image is invalid", status_code=400)
+        image = image.astype(np.float32)
 
         db = DataBase(db_name, db_user, db_password, db_host, db_port)
         db.create_table()
@@ -84,7 +86,8 @@ async def upload_image_and_classify(file: UploadFile | None = None):
         hit = db.find_picture_in_table(image_hash)
         if not hit:
             print("No image with same hash in db, running the model")
-            label = "temp_value"  # TODO: send image to model and get the label
+            model = Inference()
+            label = model(img=image)
             db.insert_label_into_table(image_hash, label)
         else:
             print("Found image with same hash in db, getting the label")
