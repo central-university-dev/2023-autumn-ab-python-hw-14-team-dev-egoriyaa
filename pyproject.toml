@@ -22,12 +22,13 @@ black = "*"
 fastapi = "^0.108.0"
 uvicorn = "^0.25.0"
 
-[tool.poetry.group.dl-dev.dependencies]
-python = ">=3.10.0, <3.11.0"
+[tool.poetry.group.dl.dependencies]
 opencv-python = "*"
 numpy = "*"
-torch = "*"
 torchvision = "*"
+
+[tool.poetry.group.dev.dependencies]
+torch = "*"
 
 [build-system]
 requires = ["poetry-core"]

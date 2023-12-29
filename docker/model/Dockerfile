@@ -1,7 +1,7 @@
-FROM python:3.10
+FROM nvcr.io/nvidia/pytorch:23.05-py3 as base
 
-ENV VIRTUAL_ENV=/opt/venv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+RUN pip install numpy torchvision
 
-WORKDIR /app
+COPY aic .
+
+WORKDIR aic/clsf_model/
