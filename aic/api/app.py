@@ -71,7 +71,7 @@ async def upload_image_and_classify(file: UploadFile | None = None):
         return PlainTextResponse(content="No upload file sent", status_code=400)
     else:
         file_path = Path(f"./{file.filename}")
-        # image = Image.open(io.BytesIO(file.file))
+
         with file_path.open("wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
