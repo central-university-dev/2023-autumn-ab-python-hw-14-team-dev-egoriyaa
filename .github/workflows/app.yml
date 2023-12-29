@@ -52,6 +52,7 @@ jobs:
 
       - name: Static Analysis
         run: poetry run make lint
+
   test:
     runs-on: ubuntu-latest
     strategy:
