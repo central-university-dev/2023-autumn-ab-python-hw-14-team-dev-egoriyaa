@@ -13,7 +13,7 @@
 
 ### Результат
 - Документация по api - [openapi.yml](assets/documentation/openapi.yaml)
-- Покрытие тестами - ?%
+- Документация по методам в проекте - [pdoc html documentation](assets/documentation/aic/index.html)
 
 ### Итоги
    - Что получилось хорошо?
