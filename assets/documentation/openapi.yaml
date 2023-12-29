@@ -1,0 +1,112 @@
+openapi: 3.1.0
+info:
+  title: FastAPI
+  version: 0.1.0
+paths:
+  /check_db:
+    get:
+      summary: Check Connection To Db
+      description: |-
+        Check db connectivity.
+
+        Raises:
+            HTTPException: some error happened
+
+        Returns:
+            PlainTextResponse | HTTPException
+      operationId: check_connection_to_db_check_db_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /health:
+    get:
+      summary: Read Health
+      description: |-
+        Check service health.
+
+        Returns:
+            JSONResponse: OK response
+      operationId: read_health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /upload:
+    post:
+      summary: Upload Image And Classify
+      description: |-
+        Upload image using POST request and classify it using the ML model.
+
+        Args:
+            file (UploadFile | None, optional): an image to upload. Defaults to None.
+
+        Returns:
+            PlainTextResponse | JSONResponse: response
+      operationId: upload_image_and_classify_upload_post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              allOf:
+                - $ref: >-
+                    #/components/schemas/Body_upload_image_and_classify_upload_post
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Body_upload_image_and_classify_upload_post:
+      properties:
+        file:
+          anyOf:
+            - type: string
+              format: binary
+            - type: 'null'
+          title: File
+      type: object
+      title: Body_upload_image_and_classify_upload_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError
