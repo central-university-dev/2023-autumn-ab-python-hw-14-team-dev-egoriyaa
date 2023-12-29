@@ -109,3 +109,4 @@ jobs:
 
       - name: Run docker compose
         run: docker-compose up
+    timeout-minutes: 5
