@@ -1,14 +1,14 @@
 import logging
 import os
 import random
-import shutil
-from pathlib import Path
 
+import cv2
+import numpy as np
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.responses import JSONResponse, PlainTextResponse
 from psycopg2 import OperationalError, ProgrammingError
 
-from aic.api.utilities import create_connection, is_valid_image
+from aic.db.main import DataBase
 
 random.seed(42)
 
@@ -32,9 +32,10 @@ def check_connection_to_db():
     Returns:
         PlainTextResponse | HTTPException
     """
-    connection = create_connection(db_name, db_user, db_password, db_host, db_port)
+
+    db = DataBase(db_name, db_user, db_password, db_host, db_port)
     try:
-        with connection.cursor():
+        with db.connection.cursor():
             return PlainTextResponse(
                 content="Successfully connected to db", status_code=200
             )
@@ -44,7 +45,7 @@ def check_connection_to_db():
         raise HTTPException(status_code=400) from e
 
     finally:
-        connection.close()
+        db.connection.close()
 
 
 @app.get("/health")
@@ -70,17 +71,30 @@ async def upload_image_and_classify(file: UploadFile | None = None):
     if not file:
         return PlainTextResponse(content="No upload file sent", status_code=400)
     else:
-        file_path = Path(f"./{file.filename}")
-
-        with file_path.open("wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-
-        if not is_valid_image(file_path):
+        contents = await file.read()
+        arr = np.frombuffer(contents, np.uint8)
+        image = cv2.imdecode(arr, cv2.IMREAD_COLOR)
+        if image is None:
             return PlainTextResponse(content="Image is invalid", status_code=400)
 
-        # TODO: read image, send to model and get the label
-        label = "TBD"
+        db = DataBase(db_name, db_user, db_password, db_host, db_port)
+        db.create_table()
+
+        image_hash = hash(image.tostring())
+        hit = db.find_picture_in_table(image_hash)
+        if not hit:
+            print("No image with same hash in db, running the model")
+            label = "temp_value"  # TODO: send image to model and get the label
+            db.insert_label_into_table(image_hash, label)
+        else:
+            print("Found image with same hash in db, getting the label")
+            label = hit
 
         return JSONResponse(
-            content={"image_name": file.filename, "label": label}, status_code=200
+            content={
+                "image_name": file.filename,
+                "image_hash": image_hash,
+                "label": label,
+            },
+            status_code=200,
         )

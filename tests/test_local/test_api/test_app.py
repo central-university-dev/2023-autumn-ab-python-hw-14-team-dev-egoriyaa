@@ -4,13 +4,21 @@ from fastapi.testclient import TestClient
 from aic.api.app import app
 from pathlib import Path
 
-IMAGE_PATH = "tests/test_local/test_api/assets/psi.png"
+VALID_IMAGE_PATH = "tests/test_local/test_api/files/valid_img.png"
+INVALID_IMAGE_PATH = "tests/test_local/test_api/files/invalid_img.png"
+
 client = TestClient(app)
 
 
 @pytest.fixture
-def test_image():
-    image_path = Path(IMAGE_PATH)
+def test_image_valid():
+    image_path = Path(VALID_IMAGE_PATH)
+    return image_path
+
+
+@pytest.fixture
+def test_image_invalid():
+    image_path = Path(INVALID_IMAGE_PATH)
     return image_path
 
 
@@ -20,15 +28,13 @@ def test_read_health():
     assert response.json() == {"status": "OK"}
 
 
-# TODO: change test in accordance with added model
-def test_upload_image_and_classify(test_image):
-    with test_image.open("rb") as image_file:
-        files = {"file": ("test_image.png", image_file, "image/png")}
+def test_upload_image_and_classify_invalid_file(test_image_invalid):
+    with test_image_invalid.open("rb") as image_file:
+        files = {"file": ("invalid_img.png", image_file, "image/png")}
         response = client.post("/upload", files=files)
 
-    assert response.status_code == 200
-    assert response.json()["image_name"] == "test_image.png"
-    assert response.json()["label"] == "TBD"
+    assert response.status_code == 400
+    assert response.content == b"Image is invalid"
 
 
 def test_upload_image_and_classify_no_file():
