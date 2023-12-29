@@ -4,7 +4,7 @@ import onnxruntime as ort
 
 
 class Inference:
-    def __init__(self, model_path="./model.onnx"):
+    def __init__(self, model_path="/app/aic/clsf_model/model.onnx"):
         self.sess = ort.InferenceSession(model_path)
         self.MEAN = np.array([0.079, 0.05, 0]) + 0.406
         self.STD = np.array([0.005, 0, 0.001]) + 0.224
@@ -21,7 +21,7 @@ class Inference:
         return image_data
 
     def _index_to_label(self, ind):
-        with open("./labels.txt", "r") as f:
+        with open("/app/aic/clsf_model/labels.txt", "r") as f:
             categories = [s.strip() for s in f.readlines()]
         return categories[ind]
 
