@@ -4,12 +4,13 @@ from fastapi.testclient import TestClient
 from aic.api.app import app
 from pathlib import Path
 
+IMAGE_PATH = "tests/test_local/test_api/assets/psi.png"
 client = TestClient(app)
 
 
 @pytest.fixture
 def test_image():
-    image_path = Path("tests/assets/psi.png")
+    image_path = Path(IMAGE_PATH)
     return image_path
 
 
