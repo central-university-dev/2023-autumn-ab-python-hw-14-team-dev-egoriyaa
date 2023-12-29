@@ -78,7 +78,7 @@ services:
       - DB_PORT=${DB_PORT}
     ports:
       - "8000:8000"
-    command: python3 -m uvicorn main:app --host 0.0.0.0 --port 8000
+    command: python3 -m uvicorn aic.api.app:app --host 0.0.0.0 --port 8000
 
 
 networks:

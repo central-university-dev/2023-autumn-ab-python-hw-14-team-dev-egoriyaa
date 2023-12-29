@@ -7,6 +7,12 @@ authors = [
     "Камиль Аглиуллин",
     "Владимир Дьяков"
 ]
+<<<<<<< HEAD
+=======
+packages = [
+    { include = "aic"},
+]
+>>>>>>> main
 
 [tool.poetry.dependencies]
 python = ">=3.10.0, <3.11.0"
@@ -20,6 +26,9 @@ ruff = "*"
 black = "*"
 fastapi = "^0.108.0"
 uvicorn = "^0.25.0"
+python-multipart = "^0.0.6"
+pillow = "^10.1.0"
+httpx = "^0.26.0"
 
 [tool.ruff]
 ignore-init-module-imports = true # TODO doesn't work without exclude section
