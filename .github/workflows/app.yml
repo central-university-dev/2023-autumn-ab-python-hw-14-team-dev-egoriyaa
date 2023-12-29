@@ -93,6 +93,7 @@ jobs:
           poetry run pytest tests --cov=abc
 
   build:
+    needs: [lint, test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -101,6 +102,7 @@ jobs:
         run: docker-compose build
 
   run:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
