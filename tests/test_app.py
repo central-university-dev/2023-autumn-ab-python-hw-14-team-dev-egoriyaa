@@ -33,4 +33,4 @@ def test_upload_image_and_classify(test_image):
 def test_upload_image_and_classify_no_file():
     response = client.post("/upload")
     assert response.status_code == 400
-    assert response.json()["message"] == "No upload file sent"
+    assert response.content == b"No upload file sent"
