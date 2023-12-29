@@ -58,4 +58,4 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build docker compose
-        run: docker-compose build
+        run: docker-compose up --build
