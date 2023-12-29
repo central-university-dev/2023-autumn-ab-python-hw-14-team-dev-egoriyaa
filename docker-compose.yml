@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  database:
+  db:
     image: postgres:latest
-    container_name: database
+    container_name: db
     volumes:
       - ./pgdata/:/var/lib/postgresql/data
     ports:
@@ -27,7 +27,7 @@ services:
       context: .
       dockerfile: docker/tests/Dockerfile
     ports:
-      - "8000:8000"
+      - "8001:8001"
     volumes:
       - .:/opt/app
     environment:
@@ -38,7 +38,7 @@ services:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
     depends_on:
-      - database
+      - db
 
 
   model:
@@ -47,7 +47,7 @@ services:
         dockerfile: docker/model/Dockerfile
     container_name: model
     depends_on:
-      database:
+      db:
         condition: service_healthy
     networks:
       - ournetwork
