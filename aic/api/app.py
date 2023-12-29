@@ -98,3 +98,4 @@ async def upload_image_and_classify(file: UploadFile | None = None):
             },
             status_code=200,
         )
+
