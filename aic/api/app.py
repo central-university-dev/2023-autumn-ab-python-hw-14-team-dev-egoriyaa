@@ -77,6 +77,7 @@ async def upload_image_and_classify(file: UploadFile | None = None):
         image = cv2.imdecode(arr, cv2.IMREAD_COLOR)
         if image is None:
             return PlainTextResponse(content="Image is invalid", status_code=400)
+        image = image.astype(np.float32)
 
         db = DataBase(db_name, db_user, db_password, db_host, db_port)
         db.create_table()
