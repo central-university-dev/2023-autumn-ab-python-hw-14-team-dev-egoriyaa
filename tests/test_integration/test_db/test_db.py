@@ -13,12 +13,24 @@ query_drop_table = f"DROP TABLE IF EXISTS {table_name}"
 
 
 def test_connect_db():
-    db = DataBase(db_name=db_name, db_user=db_user, db_password=db_password, db_host=db_host, db_port=db_port)
+    db = DataBase(
+        db_name=db_name,
+        db_user=db_user,
+        db_password=db_password,
+        db_host=db_host,
+        db_port=db_port,
+    )
     db.connection.close()
 
 
 def test_create_table():
-    db = DataBase(db_name=db_name, db_user=db_user, db_password=db_password, db_host=db_host, db_port=db_port)
+    db = DataBase(
+        db_name=db_name,
+        db_user=db_user,
+        db_password=db_password,
+        db_host=db_host,
+        db_port=db_port,
+    )
     db.execute_query(query_drop_table)
     db.create_table()
     db.connection.close()
@@ -26,7 +38,13 @@ def test_create_table():
 
 def test_insert_data_into_table():
     expected_result: List = [("123", "1")]
-    db = DataBase(db_name=db_name, db_user=db_user, db_password=db_password, db_host=db_host, db_port=db_port)
+    db = DataBase(
+        db_name=db_name,
+        db_user=db_user,
+        db_password=db_password,
+        db_host=db_host,
+        db_port=db_port,
+    )
     db.execute_query(query_drop_table)
     db.create_table()
     db.insert_label_into_table("123", "1")
@@ -38,7 +56,13 @@ def test_insert_data_into_table():
 
 @pytest.mark.parametrize("image_hash, expected_result", [("123", "1"), ("1234", False)])
 def test_find_picture_in_table(image_hash, expected_result):
-    db = DataBase(db_name=db_name, db_user=db_user, db_password=db_password, db_host=db_host, db_port=db_port)
+    db = DataBase(
+        db_name=db_name,
+        db_user=db_user,
+        db_password=db_password,
+        db_host=db_host,
+        db_port=db_port,
+    )
     db.execute_query(query_drop_table)
     db.create_table()
     db.insert_label_into_table("123", "1")
