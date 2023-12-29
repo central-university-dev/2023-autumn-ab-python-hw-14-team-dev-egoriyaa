@@ -8,7 +8,7 @@ from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.responses import JSONResponse, PlainTextResponse
 from psycopg2 import OperationalError, ProgrammingError
 
-from .utilities import create_connection, is_valid_image
+from aic.api.utilities import create_connection, is_valid_image
 
 random.seed(42)
 

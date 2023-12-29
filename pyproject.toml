@@ -7,6 +7,9 @@ authors = [
     "Камиль Аглиуллин",
     "Владимир Дьяков"
 ]
+packages = [
+    { include = "aic"},
+]
 
 [tool.poetry.dependencies]
 python = ">=3.10.0, <3.11.0"
