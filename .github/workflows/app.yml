@@ -89,7 +89,7 @@ jobs:
 
       - name: PyTest
         run: |
-          poetry run pytest tests --cov=aic
+          poetry run pytest tests/test_local --cov=aic
 
   run:
     needs: [lint, test]
@@ -134,7 +134,7 @@ jobs:
 
       - name: PyTest
         run: |
-          poetry run pytest tests --cov=aic
+          poetry run pytest tests/test_integration --cov=aic
 
       - name: Stop Docker Compose
         run: docker-compose down
