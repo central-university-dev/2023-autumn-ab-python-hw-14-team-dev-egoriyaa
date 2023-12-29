@@ -8,12 +8,7 @@ from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.responses import JSONResponse, PlainTextResponse
 from psycopg2 import OperationalError, ProgrammingError
 
-<<<<<<< HEAD
 from aic.db.main import DataBase
-=======
-from aic.api.utilities import create_connection, is_valid_image
-from aic.clsf_model.onnx_inference import Inference
->>>>>>> 28ecc83 (add classification model)
 
 random.seed(42)
 
@@ -75,33 +70,31 @@ async def upload_image_and_classify(file: UploadFile | None = None):
     """
     if not file:
         return PlainTextResponse(content="No upload file sent", status_code=400)
-
-    contents = await file.read()
-    arr = np.frombuffer(contents, np.uint8)
-    image = cv2.imdecode(arr, cv2.IMREAD_COLOR)
-    if image is None:
-        return PlainTextResponse(content="Image is invalid", status_code=400)
-
-    db = DataBase(db_name, db_user, db_password, db_host, db_port)
-    db.create_table()
-
-    image_hash = hash(image.tostring())
-    hit = db.find_picture_in_table(image_hash)
-    if not hit:
-        print("No image with same hash in db, running the model")
-        model = Inference()
-        label = model()
-        db.insert_label_into_table(image_hash, label)
     else:
-        print("Found image with same hash in db, getting the label")
-        label = hit
+        contents = await file.read()
+        arr = np.frombuffer(contents, np.uint8)
+        image = cv2.imdecode(arr, cv2.IMREAD_COLOR)
+        if image is None:
+            return PlainTextResponse(content="Image is invalid", status_code=400)
 
-    return JSONResponse(
-        content={
-            "image_name": file.filename,
-            "image_hash": image_hash,
-            "label": label,
-        },
-        status_code=200,
-    )
+        db = DataBase(db_name, db_user, db_password, db_host, db_port)
+        db.create_table()
 
+        image_hash = hash(image.tostring())
+        hit = db.find_picture_in_table(image_hash)
+        if not hit:
+            print("No image with same hash in db, running the model")
+            label = "temp_value"  # TODO: send image to model and get the label
+            db.insert_label_into_table(image_hash, label)
+        else:
+            print("Found image with same hash in db, getting the label")
+            label = hit
+
+        return JSONResponse(
+            content={
+                "image_name": file.filename,
+                "image_hash": image_hash,
+                "label": label,
+            },
+            status_code=200,
+        )
