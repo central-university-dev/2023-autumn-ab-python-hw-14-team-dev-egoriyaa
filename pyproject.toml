@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ABC"
+name = "AIC"
 version = "0.1.0"
 description = "Application for bird classification"
 authors = [
@@ -7,7 +7,9 @@ authors = [
     "Камиль Аглиуллин",
     "Владимир Дьяков"
 ]
-readme = "README.md"
+packages = [
+    { include = "aic"},
+]
 
 [tool.poetry.dependencies]
 python = ">=3.10.0, <3.11.0"
@@ -21,6 +23,9 @@ ruff = "*"
 black = "*"
 fastapi = "^0.108.0"
 uvicorn = "^0.25.0"
+python-multipart = "^0.0.6"
+pillow = "^10.1.0"
+httpx = "^0.26.0"
 
 [build-system]
 requires = ["poetry-core"]
