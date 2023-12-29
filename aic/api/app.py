@@ -1,3 +1,4 @@
+import io
 import logging
 import os
 import random
@@ -6,8 +7,10 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.responses import JSONResponse, PlainTextResponse
+from PIL import Image
 from psycopg2 import OperationalError, ProgrammingError
-from aic.api.utilities import create_connection
+
+from aic.api.utilities import create_connection, is_valid_image
 
 random.seed(42)
 
@@ -64,15 +67,19 @@ async def upload_image_and_classify(file: UploadFile | None = None):
         file (UploadFile | None, optional): an image to upload. Defaults to None.
 
     Returns:
-        JSONResponse: response in json format
+        PlainTextResponse | JSONResponse: response
     """
     if not file:
-        return JSONResponse(content={"message": "No upload file sent"}, status_code=400)
+        return PlainTextResponse(content="No upload file sent", status_code=400)
     else:
         file_path = Path(f"./{file.filename}")
+        image = Image.open(io.BytesIO(file.file))
         with file_path.open("wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
+        if not is_valid_image(file_path):
+            return PlainTextResponse(content="Image is invalid", status_code=400)
+        
         # TODO: read image, send to model and get the label
         label = "TBD"
 
