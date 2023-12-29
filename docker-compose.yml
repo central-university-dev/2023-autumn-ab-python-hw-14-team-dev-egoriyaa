@@ -11,12 +11,12 @@ services:
     networks:
       - ournetwork
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_TABLE=${POSTGRES_TABLE}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
+      - POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+      - POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+      - POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+      - POSTGRES_TABLE=${{ secrets.POSTGRES_TABLE }}
+      - DB_HOST=${{ secrets.DB_HOST }}
+      - DB_PORT=${{ secrets.DB_PORT }}
     healthcheck:
           test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'"]
           interval: 1s
@@ -31,12 +31,12 @@ services:
     volumes:
       - .:/opt/app
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_TABLE=${POSTGRES_TABLE}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
+      - POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+      - POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+      - POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+      - POSTGRES_TABLE=${{ secrets.POSTGRES_TABLE }}
+      - DB_HOST=${{ secrets.DB_HOST }}
+      - DB_PORT=${{ secrets.DB_PORT }}
     depends_on:
       - db
 
