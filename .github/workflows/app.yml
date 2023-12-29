@@ -92,26 +92,17 @@ jobs:
         run: |
           poetry run pytest tests --cov=aic
 
-  build:
+  up:
     needs: [lint, test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build docker compose
-        run: docker-compose build
-
-  run:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
       - name: Run docker compose
-        run: docker-compose up -d
+        run: docker-compose up --build -d
 
   integration_tests:
-    needs: run
+    needs: up
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
