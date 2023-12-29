@@ -7,9 +7,8 @@ authors = [
     "Камиль Аглиуллин",
     "Владимир Дьяков"
 ]
-packages = [
-    { include = "aic"},
-]
+
+packages = [{ include = "aic"}]
 
 [tool.poetry.dependencies]
 python = ">=3.10.0, <3.11.0"
@@ -26,6 +25,10 @@ uvicorn = "^0.25.0"
 python-multipart = "^0.0.6"
 pillow = "^10.1.0"
 httpx = "^0.26.0"
+
+[tool.ruff]
+ignore-init-module-imports = true # TODO doesn't work without exclude section
+exclude = ["__init__.py"]
 
 [build-system]
 requires = ["poetry-core"]

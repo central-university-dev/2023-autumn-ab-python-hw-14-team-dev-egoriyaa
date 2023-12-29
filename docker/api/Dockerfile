@@ -8,7 +8,6 @@ WORKDIR /app
 
 RUN pip install poetry
 
-# COPY pyproject.toml .
 COPY . .
 
 RUN poetry install
