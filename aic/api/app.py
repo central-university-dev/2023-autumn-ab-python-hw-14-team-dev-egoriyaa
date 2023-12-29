@@ -7,7 +7,7 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.responses import JSONResponse, PlainTextResponse
 from psycopg2 import OperationalError, ProgrammingError
-from src.api.utilities import create_connection
+from aic.api.utilities import create_connection
 
 random.seed(42)
 

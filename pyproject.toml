@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ABC"
+name = "AIC"
 version = "0.1.0"
 description = "Application for bird classification"
 authors = [

@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from src.api.app import app
+from aic.api.app import app
 from pathlib import Path
 
 client = TestClient(app)

@@ -1,6 +1,6 @@
 from fastapi import UploadFile
 
-from src.api.utilities import is_valid_image
+from aic.api.utilities import is_valid_image
 from pathlib import Path
 
 
